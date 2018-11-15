@@ -2,8 +2,9 @@
   // read SVG, parse into DOM, convert to blob
   var dropHandler, generateBlob, processFile, readFile;
 
-  processFile = function(e) {
+  processFile = function(e, name) {
     var dom, i, len, opt, ref, sizes, svg, text, zip;
+    name = name.replace(/\.[^\/.]+$/, '');
     text = e.target.result;
     dom = document.implementation.createHTMLDocument('svg');
     dom.open();
@@ -19,7 +20,7 @@
     zip = new JSZip();
     return Promise.all(sizes.map(function(size) {
       return generateBlob(size, svg).then(function(blob) {
-        return zip.file(`image-${size}.png`, blob);
+        return zip.file(`${name}-${size}.png`, blob);
       });
     })).then(function() {
       return zip.generateAsync({
@@ -27,7 +28,7 @@
       }).then(URL.createObjectURL).then(function(url) {
         var anchor;
         anchor = document.createElement('a');
-        anchor.setAttribute('download', 'icons.zip');
+        anchor.setAttribute('download', `${name}.zip`);
         anchor.href = url;
         return anchor.click();
       });
@@ -61,7 +62,9 @@
   readFile = function(file) {
     var fileReader;
     fileReader = new FileReader();
-    fileReader.onloadend = processFile;
+    fileReader.onloadend = function(e) {
+      return processFile(e, file.name);
+    };
     return fileReader.readAsText(file);
   };
 

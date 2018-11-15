@@ -1,5 +1,6 @@
 # read SVG, parse into DOM, convert to blob
-processFile = (e) ->
+processFile = (e, name) ->
+  name = name.replace(/\.[^/.]+$/, '')
   text = e.target.result
   dom = document.implementation.createHTMLDocument('svg')
   dom.open()
@@ -12,12 +13,12 @@ processFile = (e) ->
   zip = new JSZip()
   Promise.all(sizes.map((size) ->
     generateBlob(size, svg).then((blob) ->
-      zip.file("image-#{size}.png", blob)
+      zip.file("#{name}-#{size}.png", blob)
     )
   )).then( ->
     zip.generateAsync(type: 'blob').then(URL.createObjectURL).then((url) ->
       anchor = document.createElement('a')
-      anchor.setAttribute('download', 'icons.zip')
+      anchor.setAttribute('download', "#{name}.zip")
       anchor.href = url
       anchor.click()
     )
@@ -45,7 +46,8 @@ generateBlob = (size, svg) ->
 
 readFile = (file) ->
   fileReader = new FileReader()
-  fileReader.onloadend = processFile
+  fileReader.onloadend = (e) ->
+    processFile(e, file.name)
   fileReader.readAsText(file)
 
 dropHandler = (e) ->
