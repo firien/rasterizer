@@ -1,0 +1,31 @@
+body {
+  font-family: -apple-system, Helvetica;
+}
+
+ul {
+  padding: 0;
+  list-display-style: none;
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox] + label {
+  display: block;
+  cursor: pointer;
+}
+
+input[type=checkbox] + label::before {
+  font-family: monospace;
+  display: inline-block;
+  width: 1em;
+}
+
+input[type=checkbox]:checked + label::before {
+  content: '✓';
+}
+
+input[type=checkbox]:not(:checked) + label::before {
+  content: '-';
+}

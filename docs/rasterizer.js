@@ -1,9 +1,9 @@
 (function() {
   // read SVG, parse into DOM, convert to blob
-  var dropHandler, generateBlob, processFile, readFile;
+  var $sizes, dropHandler, generateBlob, processFile, readFile;
 
-  processFile = function(e, name) {
-    var dom, i, len, opt, ref, sizes, svg, text, zip;
+  processFile = function(e, name, sizes) {
+    var dom, svg, text, zip;
     name = name.replace(/\.[^\/.]+$/, '');
     text = e.target.result;
     dom = document.implementation.createHTMLDocument('svg');
@@ -11,16 +11,15 @@
     dom.write(text);
     dom.close();
     svg = dom.body.firstElementChild;
-    sizes = [];
-    ref = document.getElementById('sizes').selectedOptions;
-    for (i = 0, len = ref.length; i < len; i++) {
-      opt = ref[i];
-      sizes.push(opt.value);
-    }
     zip = new JSZip();
     return Promise.all(sizes.map(function(size) {
-      return generateBlob(size, svg).then(function(blob) {
-        return zip.file(`${name}-${size}.png`, blob);
+      return generateBlob(size.size * size.scale, svg).then(function(blob) {
+        var filename;
+        filename = `${name}-${size.size}`;
+        if (size.scale > 1) {
+          filename += `@${size.scale}x`;
+        }
+        return zip.file(`${filename}.png`, blob);
       });
     })).then(function() {
       return zip.generateAsync({
@@ -59,25 +58,50 @@
     });
   };
 
-  readFile = function(file) {
+  readFile = function(file, sizes) {
     var fileReader;
     fileReader = new FileReader();
     fileReader.onloadend = function(e) {
-      return processFile(e, file.name);
+      return processFile(e, file.name, sizes);
     };
     return fileReader.readAsText(file);
   };
 
   dropHandler = function(e) {
-    var file, i, len, ref, ref1, results;
-    if (((ref = e.dataTransfer.files) != null ? ref.length : void 0) > 0) {
+    var file, i, input, j, len, len1, ref, ref1, ref2, results, size, sizes, x2, x3;
+    // get selected sizes
+    sizes = [];
+    x2 = document.getElementById('x2').checked;
+    x3 = document.getElementById('x3').checked;
+    ref = document.querySelectorAll('ul input:checked');
+    for (i = 0, len = ref.length; i < len; i++) {
+      input = ref[i];
+      size = Number(input.value);
+      sizes.push({
+        size: size,
+        scale: 1
+      });
+      if (x2) {
+        sizes.push({
+          size: size,
+          scale: 2
+        });
+      }
+      if (x3) {
+        sizes.push({
+          size: size,
+          scale: 3
+        });
+      }
+    }
+    if (((ref1 = e.dataTransfer.files) != null ? ref1.length : void 0) > 0) {
       e.stopPropagation();
       e.preventDefault();
-      ref1 = e.dataTransfer.files;
+      ref2 = e.dataTransfer.files;
       results = [];
-      for (i = 0, len = ref1.length; i < len; i++) {
-        file = ref1[i];
-        results.push(readFile(file));
+      for (j = 0, len1 = ref2.length; j < len1; j++) {
+        file = ref2[j];
+        results.push(readFile(file, sizes));
       }
       return results;
     }
@@ -87,6 +111,47 @@
 
   window.addEventListener('dragover', function(e) {
     return e.preventDefault();
+  });
+
+  $sizes = [];
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var form;
+    form = document.querySelector('form#new-size');
+    return form.addEventListener('submit', function(e) {
+      var checkbox, i, id, label, len, li, size, ul;
+      e.preventDefault();
+      e.stopPropagation();
+      if (form.checkValidity()) {
+        size = form['image-size'].value;
+        // ensure it is unique
+        if (!$sizes.includes(size)) {
+          $sizes.push(size);
+          $sizes.sort();
+          ul = document.querySelector('ul');
+          while (ul.firstChild) {
+            ul.removeChild(ul.firstChild);
+          }
+          for (i = 0, len = $sizes.length; i < len; i++) {
+            size = $sizes[i];
+            li = document.createElement('li');
+            checkbox = document.createElement('input');
+            checkbox.setAttribute('type', 'checkbox');
+            checkbox.setAttribute('value', size);
+            id = `A${size}`;
+            checkbox.setAttribute('id', id);
+            checkbox.checked = true;
+            label = document.createElement('label');
+            label.setAttribute('for', id);
+            label.textContent = size;
+            li.appendChild(checkbox);
+            li.appendChild(label);
+            ul.appendChild(li);
+          }
+        }
+        return form.reset();
+      }
+    });
   });
 
 }).call(this);

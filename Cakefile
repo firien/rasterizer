@@ -36,15 +36,27 @@ task('serve', 'serve', (options) ->
       if fs.statSync(filename).isDirectory()
         filename += '/index.html'
 
-      fs.readFile(filename, "binary", (err, file) ->
+      fs.readFile(filename, "utf8", (err, file) ->
         if err
           response.writeHead(500, "Content-Type": "text/plain")
           response.write(err + "\n")
           response.end()
           return
 
-        response.writeHead(200)
-        response.write(file, "binary")
+        ext = path.extname(filename)
+        if /html/.test ext
+          contentType = 'text/html'
+        else if /png/.test ext
+          contentType = 'image/png'
+        else if /css/.test ext
+          contentType = 'text/css'
+        else if /js/.test ext
+          contentType = 'application/javascript'
+        else if /manifest/.test ext
+          contentType = 'application/manifest+json'
+
+        response.writeHead(200, "Content-Type": "#{contentType}; charset=utf-8")
+        response.write(file, "utf8")
         response.end()
       )
     else

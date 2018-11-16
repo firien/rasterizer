@@ -4,10 +4,14 @@ html
     title Rasterizer
     script(src='bundle.js')
     script(src='rasterizer.js')
+    link(rel='stylesheet' href='index.css')
+    meta(name="viewport" content="width=device-width, initial-scale=1")
   body
-    select#sizes(multiple=true size=8)
-      option(value=152) 152
-      option(value=167) 167
-      option(value=180) 180
-      option(value=192) 192
-      option(value=512) 512
+    form#new-size
+      input(name='image-size' placeholder='Add New Size' pattern='\\d+')
+    ul#sizes
+
+    input#x2(name='x2' type='checkbox')
+    label(for='x2') Include @2x
+    input#x3(name='x3' type='checkbox')
+    label(for='x3') Include @3x

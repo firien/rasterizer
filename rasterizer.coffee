@@ -1,5 +1,5 @@
 # read SVG, parse into DOM, convert to blob
-processFile = (e, name) ->
+processFile = (e, name, sizes) ->
   name = name.replace(/\.[^/.]+$/, '')
   text = e.target.result
   dom = document.implementation.createHTMLDocument('svg')
@@ -7,13 +7,13 @@ processFile = (e, name) ->
   dom.write(text)
   dom.close()
   svg = dom.body.firstElementChild
-  sizes = []
-  for opt in document.getElementById('sizes').selectedOptions
-    sizes.push opt.value
   zip = new JSZip()
   Promise.all(sizes.map((size) ->
-    generateBlob(size, svg).then((blob) ->
-      zip.file("#{name}-#{size}.png", blob)
+    generateBlob(size.size * size.scale, svg).then((blob) ->
+      filename = "#{name}-#{size.size}"
+      if size.scale > 1
+        filename += "@#{size.scale}x"
+      zip.file("#{filename}.png", blob)
     )
   )).then( ->
     zip.generateAsync(type: 'blob').then(URL.createObjectURL).then((url) ->
@@ -44,19 +44,63 @@ generateBlob = (size, svg) ->
       canvas.toBlob(resolve, 'image/png')
   )
 
-readFile = (file) ->
+readFile = (file, sizes) ->
   fileReader = new FileReader()
   fileReader.onloadend = (e) ->
-    processFile(e, file.name)
+    processFile(e, file.name, sizes)
   fileReader.readAsText(file)
 
 dropHandler = (e) ->
+  # get selected sizes
+  sizes = []
+  x2 = document.getElementById('x2').checked
+  x3 = document.getElementById('x3').checked
+  for input in document.querySelectorAll('ul input:checked')
+    size = Number(input.value)
+    sizes.push(size: size, scale: 1)
+    if x2
+      sizes.push(size: size, scale: 2)
+    if x3
+      sizes.push(size: size, scale: 3)
   if e.dataTransfer.files?.length > 0
     e.stopPropagation()
     e.preventDefault()
     for file in e.dataTransfer.files
-      readFile(file)
+      readFile(file, sizes)
 window.addEventListener('drop', dropHandler)
 window.addEventListener('dragover', (e) ->
   e.preventDefault()
+)
+
+$sizes = []
+document.addEventListener('DOMContentLoaded', ->
+  form = document.querySelector('form#new-size')
+  form.addEventListener('submit', (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    if form.checkValidity()
+      size = form['image-size'].value
+      # ensure it is unique
+      if not $sizes.includes(size)
+        $sizes.push size
+        $sizes.sort()
+        ul = document.querySelector('ul')
+        while ul.firstChild
+          ul.removeChild(ul.firstChild)
+        for size in $sizes
+          li = document.createElement('li')
+          checkbox = document.createElement('input')
+          checkbox.setAttribute('type', 'checkbox')
+          checkbox.setAttribute('value', size)
+          id = "A#{size}"
+          checkbox.setAttribute('id', id)
+          checkbox.checked = true
+          label = document.createElement('label')
+          label.setAttribute('for', id)
+          label.textContent = size
+          li.appendChild checkbox
+          li.appendChild label
+          ul.appendChild li
+      form.reset()
+  )
 )
