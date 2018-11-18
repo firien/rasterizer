@@ -79,11 +79,11 @@ document.addEventListener('DOMContentLoaded', ->
     e.preventDefault()
     e.stopPropagation()
     if form.checkValidity()
-      size = form['image-size'].value
+      size = Number(form['image-size'].value)
       # ensure it is unique
       if not $sizes.includes(size)
         $sizes.push size
-        $sizes.sort()
+        $sizes.sort((a,b) -> a - b)
         ul = document.querySelector('ul')
         while ul.firstChild
           ul.removeChild(ul.firstChild)

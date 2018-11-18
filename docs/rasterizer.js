@@ -123,11 +123,13 @@
       e.preventDefault();
       e.stopPropagation();
       if (form.checkValidity()) {
-        size = form['image-size'].value;
+        size = Number(form['image-size'].value);
         // ensure it is unique
         if (!$sizes.includes(size)) {
           $sizes.push(size);
-          $sizes.sort();
+          $sizes.sort(function(a, b) {
+            return a - b;
+          });
           ul = document.querySelector('ul');
           while (ul.firstChild) {
             ul.removeChild(ul.firstChild);
