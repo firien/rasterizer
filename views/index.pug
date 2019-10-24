@@ -9,7 +9,7 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1")
     // scripts
     script&attributes(scriptAttributes('bundle.js'))
-    // script&attributes(scriptAttributes('pwa.js'))
+    script&attributes(scriptAttributes('pwa.js'))
     script&attributes(scriptAttributes('rasterizer.js'))
     // css
     link(rel='stylesheet' href=assetPath('index.css'))
@@ -33,7 +33,7 @@ html(lang="en")
         input#x3(name='x3' type='checkbox')
         label(for='x3') Include @3x
         br
-        button Generate
+        // button Generate
       div
         :markdown-it
           Drag & Drop SVG image anywhere on this page.

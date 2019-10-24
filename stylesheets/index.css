@@ -33,3 +33,23 @@ input[type=checkbox] + label::before {
   background-color: #fffff0;
   border-left: thin solid #ccccc0
 }
+
+button#installer {
+  background: url(../images/icon-180.161e5717866bbd291345.png) left no-repeat;
+  font-family: -apple-system, Helvetica;
+  position: absolute;
+  background-color: navy;
+  top: 0;
+  right: 0;
+  margin: 1em;
+  border: thin solid white;
+  border-radius: 0.2em;
+  color: #fffff0;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  height: 2em;
+  background-size: 2em 2em;
+  padding-left: 2.5em;
+  padding-right: 0.5em;
+  cursor: pointer;
+}
