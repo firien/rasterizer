@@ -7,7 +7,7 @@
 
   $cacheName = `${$prefix}-${tag}`;
 
-  $urls = ['/rasterizer/bundle.ed49ff0ac6940f8038e8.js', '/rasterizer/javascripts/rasterizer.fc24574b7555656d7cf5.js', '/rasterizer/stylesheets/index.e5d7f3dc842b56292c45.css', '/rasterizer/images/icon-152.e32b66be0ef69d4a3f4a.png', '/rasterizer/images/icon-167.771210605436c9a8ddfc.png', '/rasterizer/images/icon-180.161e5717866bbd291345.png', '/rasterizer/images/icon-192.93fb574989386d5f7756.png', '/rasterizer/images/icon-512.f8320492a7d062b44d8c.png', '/rasterizer/pwa.991c33f466a5746c6c43.js', '/rasterizer/manifest.webmanifest', '/rasterizer/index.html', '/rasterizer/'];
+  $urls = ['/rasterizer/bundle.ed49ff0ac6940f8038e8.js', '/rasterizer/javascripts/rasterizer.fc24574b7555656d7cf5.js', '/rasterizer/stylesheets/index.807cc4522f36c1b97901.css', '/rasterizer/images/icon-152.e32b66be0ef69d4a3f4a.png', '/rasterizer/images/icon-167.771210605436c9a8ddfc.png', '/rasterizer/images/icon-180.161e5717866bbd291345.png', '/rasterizer/images/icon-192.93fb574989386d5f7756.png', '/rasterizer/images/icon-512.f8320492a7d062b44d8c.png', '/rasterizer/pwa.991c33f466a5746c6c43.js', '/rasterizer/manifest.webmanifest', '/rasterizer/index.html', '/rasterizer/'];
 
   self.addEventListener('install', function(event) {
     return event.waitUntil(caches.open($cacheName).then(function(cache) {
