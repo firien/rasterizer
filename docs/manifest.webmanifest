@@ -1,0 +1,35 @@
+{
+    "name": "Rasterizer",
+    "short_name": "Rasterizer",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fffff0",
+    "description": "Convert SVG to PNG",
+    "icons": [
+        {
+            "src": "images/icon-152.e32b66be0ef69d4a3f4a.png",
+            "type": "image/png",
+            "sizes": "152x152"
+        },
+        {
+            "src": "images/icon-167.771210605436c9a8ddfc.png",
+            "type": "image/png",
+            "sizes": "167x167"
+        },
+        {
+            "src": "images/icon-180.161e5717866bbd291345.png",
+            "type": "image/png",
+            "sizes": "180x180"
+        },
+        {
+            "src": "images/icon-192.93fb574989386d5f7756.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "images/icon-512.f8320492a7d062b44d8c.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
