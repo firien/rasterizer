@@ -7,9 +7,10 @@ Static web app deployed to [github pages](https://firien.github.io/rasterizer/)
 - [ ] @2x, @3x options
 
 
-## Development
+Uses [gh-pwa](https://github.com/firien/gh-pwa) to build docs/ folder.
 
-```
-yarn install
-yarn run cake serve
-```
+---
+
+### Development
+
+    npx webpack-dev-server

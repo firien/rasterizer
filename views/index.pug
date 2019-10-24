@@ -1,0 +1,43 @@
+doctype html
+html(lang="en")
+  head
+    title=name()
+    meta(charset="UTF-8")
+    meta(name="Description" content=desc())
+    meta(name="theme-color" content=theme())
+    meta(name="apple-mobile-web-app-capable" content="yes")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    // scripts
+    script&attributes(scriptAttributes('bundle.js'))
+    // script&attributes(scriptAttributes('pwa.js'))
+    script&attributes(scriptAttributes('rasterizer.js'))
+    // css
+    link(rel='stylesheet' href=assetPath('index.css'))
+    // icons
+    link(rel="icon" href="favicon.ico" type="image/x-icon")
+    each icon in iconLinks()
+      link(rel=icon.rel sizes=icon.sizes href=icon.href)
+    // pwa
+    link(rel="manifest", href="manifest.webmanifest")
+  body
+    div.flex
+      div
+        h1 Rasterizer
+        form#new-size
+          input(name='image-size' placeholder='Add New Size' pattern='\\d+')
+        ul#sizes
+
+        input#x2(name='x2' type='checkbox')
+        label(for='x2') Include @2x
+        br
+        input#x3(name='x3' type='checkbox')
+        label(for='x3') Include @3x
+        br
+        button Generate
+      div
+        :markdown-it
+          Drag & Drop SVG image anywhere on this page.
+          #### Conversion
+          SVG file is used as an <img> `src`, and that is rendered to an internal <canvas>. From <canvas> the image is exported as a PNG. All files are packed into a zip file with [jszip](https://github.com/Stuk/jszip).
+          #### About
+          This is a [PWA](https://developer.mozilla.org/en-US/docs/Web/Apps/Progressive). It can be used offline, it does not communicate with any servers. All images stay on your machine, everything is done in your browser. Source code is available on [GitHub](https://github.com/firien/rasterizer).

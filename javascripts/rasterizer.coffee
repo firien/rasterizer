@@ -53,14 +53,14 @@ readFile = (file, sizes) ->
 dropHandler = (e) ->
   # get selected sizes
   sizes = []
-  x2 = document.getElementById('x2').checked
-  x3 = document.getElementById('x3').checked
+  include2x = document.getElementById('x2').checked
+  include3x = document.getElementById('x3').checked
   for input in document.querySelectorAll('ul input:checked')
     size = Number(input.value)
     sizes.push(size: size, scale: 1)
-    if x2
+    if include2x
       sizes.push(size: size, scale: 2)
-    if x3
+    if include3x
       sizes.push(size: size, scale: 3)
   if e.dataTransfer.files?.length > 0
     e.stopPropagation()
