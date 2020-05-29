@@ -6,15 +6,13 @@
   "main": "index.js",
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "clean-webpack-plugin": "^1.0.1",
     "gh-pwa": "github:firien/gh-pwa",
     "jstransformer-markdown-it": "^2.1.0",
     "jszip": "^3.1.5",
     "webpack": "^4.25.1",
-    "webpack-dev-server": "^3.1.14"
-  },
-  "devDependencies": {
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   }
 }

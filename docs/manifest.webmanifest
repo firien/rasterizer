@@ -3,7 +3,6 @@
     "short_name": "Rasterizer",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#fffff0",
     "description": "Convert SVG to PNG",
     "icons": [
         {
