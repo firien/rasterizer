@@ -16,7 +16,7 @@ const app = new PWAPlugin({
   scope: 'rasterizer',
   description: "Convert SVG to PNG",
   theme: '#fffff0',
-  tag: 2,
+  tag: 3,
   mode: mode()
 })
 

@@ -1,32 +1,32 @@
-const tag = '2';
+const tag = '3';
 const $prefix = 'RASTERIZER';
 const $cacheName = `${$prefix}-${tag}`;
 
 const $urls = [
   
-  'bundle.10bd39c34ba9449874f4.js',
+  '/rasterizer/bundle.91be9fd6385063becf97.js',
   
-  'javascripts/rasterizer.e32357013679940304fc.js',
+  '/rasterizer/javascripts/rasterizer.e32357013679940304fc.js',
   
-  'stylesheets/index.807cc4522f36c1b97901.css',
+  '/rasterizer/stylesheets/index.807cc4522f36c1b97901.css',
   
-  'images/icon-152.e32b66be0ef69d4a3f4a.png',
+  '/rasterizer/images/icon-152.e32b66be0ef69d4a3f4a.png',
   
-  'images/icon-167.771210605436c9a8ddfc.png',
+  '/rasterizer/images/icon-167.771210605436c9a8ddfc.png',
   
-  'images/icon-180.161e5717866bbd291345.png',
+  '/rasterizer/images/icon-180.161e5717866bbd291345.png',
   
-  'images/icon-192.93fb574989386d5f7756.png',
+  '/rasterizer/images/icon-192.93fb574989386d5f7756.png',
   
-  'images/icon-512.f8320492a7d062b44d8c.png',
+  '/rasterizer/images/icon-512.f8320492a7d062b44d8c.png',
   
-  'pwa.ba451b196f9dce938197.js',
+  '/rasterizer/pwa.04f2a24a02790ef8db50.js',
   
-  'manifest.webmanifest',
+  '/rasterizer/manifest.webmanifest',
   
-  'index.html',
+  '/rasterizer/index.html',
   
-  '/',
+  '/rasterizer/',
   
 ];
 
