@@ -6,11 +6,10 @@ Static web app deployed to [github pages](https://firien.github.io/rasterizer/)
 - [ ] Needs a decent UI
 - [ ] @2x, @3x options
 
-
-Uses [gh-pwa](https://github.com/firien/gh-pwa) to build docs/ folder.
+Uses [esbuild-plugin-ghpages-pwa](https://github.com/firien/esbuild-plugin-ghpages-pwa) to build docs/ folder.
 
 ---
 
 ### Development
 
-    npx webpack-dev-server
+    node ./build.js

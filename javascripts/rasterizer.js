@@ -1,3 +1,14 @@
+import JSZip from 'jszip';
+import pwa from 'esbuild-plugin-ghpages-pwa/src/pwa.js';
+
+pwa('rasterizer');
+
+const removeDropZone = () => {
+  let dropZone = document.querySelector('#drop-zone')
+  if (dropZone) {
+    document.body.removeChild(dropZone)
+  }
+}
 // read SVG, parse into DOM, convert to blob
 const processFile = async function(e, name, sizes) {
   name = name.replace(/\.[^\/.]+$/, '');
@@ -29,10 +40,9 @@ const generateBlob = function(size, svg) {
   return new Promise(function(resolve, reject) {
     svg.setAttribute('height', size);
     svg.setAttribute('width', size);
-    let b64 = window.btoa(svg.outerHTML);
     // use data uri to prevent canvas tainting
     // from converting to base64 -> blob
-    let dataUri = "data:image/svg+xml;charset=utf-8," + svg.outerHTML;
+    let dataUri = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.outerHTML);
     let image = new Image();
     image.src = dataUri;
     return image.onload = function(e) {
@@ -55,7 +65,7 @@ const readFile = function(file, sizes) {
 };
 
 const dropHandler = function(e) {
-  var ref1;
+  removeDropZone()
   // get selected sizes
   let sizes = [];
   let include2x = document.getElementById('x2').checked;
@@ -70,19 +80,29 @@ const dropHandler = function(e) {
       sizes.push({size, scale: 3});
     }
   }
-  if (((ref1 = e.dataTransfer.files) != null ? ref1.length : void 0) > 0) {
-    e.stopPropagation();
-    e.preventDefault();
-    for (let file of e.dataTransfer.files) {
-      readFile(file, sizes);
+  e.stopPropagation();
+  e.preventDefault();
+  if (sizes.length > 0) {
+    if (e.dataTransfer.files?.length > 0) {
+      for (let file of e.dataTransfer.files) {
+        readFile(file, sizes);
+      }
     }
+  } else {
+    alert('no sizes')
   }
 };
 
 window.addEventListener('drop', dropHandler);
-
+window.addEventListener('dragleave', removeDropZone)
 window.addEventListener('dragover', function(e) {
-  return e.preventDefault();
+  e.preventDefault();
+  let dropZone = document.querySelector('#drop-zone')
+  if (!dropZone) {
+    dropZone = document.createElement('div')
+    dropZone.id = 'drop-zone'
+    document.body.appendChild(dropZone)
+  }
 });
 
 let $sizes = [];
