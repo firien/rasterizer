@@ -1,10 +1,10 @@
-const tag = '4';
+const tag = '5';
 const prefix = 'RASTERIZER';
 const cacheName = `${prefix}-${tag}`;
 
 const urls = [
-  "/rasterizer/javascripts/rasterizer-BDY3LGYT.js.map",
-  "/rasterizer/javascripts/rasterizer-BDY3LGYT.js",
+  "/rasterizer/javascripts/rasterizer-GOOPDK6T.js.map",
+  "/rasterizer/javascripts/rasterizer-GOOPDK6T.js",
   "/rasterizer/stylesheets/index-MZLIHPAP.css.map",
   "/rasterizer/stylesheets/index-MZLIHPAP.css",
   "/rasterizer/images/icon-152-6DQCR3CF.png",

@@ -13,6 +13,9 @@
       return require.apply(this, arguments);
     throw new Error('Dynamic require of "' + x + '" is not supported');
   });
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  };
   var __commonJS = (cb, mod) => function __require2() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
@@ -28,9 +31,42 @@
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", !isNodeMode && module && module.__esModule ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
+  // node_modules/esbuild-plugin-ghpages-pwa/src/pwa.js
+  var pwa;
+  var init_pwa = __esm({
+    "node_modules/esbuild-plugin-ghpages-pwa/src/pwa.js"() {
+      pwa = () => {
+        if ("serviceWorker" in navigator) {
+          let scope = window.location.pathname;
+          navigator.serviceWorker.register(`${scope}service.js`, { scope }).then((registration) => {
+            const refreshPage = (worker) => {
+              if (worker.state != "activated") {
+                worker.postMessage({ action: "skipWaiting" });
+              }
+              window.location.reload();
+            };
+            if (registration.waiting) {
+              refreshPage(registration.waiting);
+            }
+            registration.addEventListener("updatefound", () => {
+              let newWorker = registration.installing;
+              newWorker.addEventListener("statechange", () => {
+                if (newWorker.state === "installed") {
+                  refreshPage(newWorker);
+                }
+              });
+            });
+          });
+        }
+      };
+      pwa();
+    }
+  });
+
   // node_modules/jszip/dist/jszip.min.js
   var require_jszip_min = __commonJS({
     "node_modules/jszip/dist/jszip.min.js"(exports, module) {
+      init_pwa();
       !function(t) {
         if (typeof exports == "object" && typeof module != "undefined")
           module.exports = t();
@@ -2645,35 +2681,8 @@
   });
 
   // javascripts/rasterizer.js
+  init_pwa();
   var import_jszip = __toESM(require_jszip_min(), 1);
-
-  // node_modules/esbuild-plugin-ghpages-pwa/src/pwa.js
-  var pwa_default = (dir) => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register(`/${dir}/service.js`, { scope: `/${dir}/` }).then((registration) => {
-        const refreshPage = (worker) => {
-          if (worker.state != "activated") {
-            worker.postMessage({ action: "skipWaiting" });
-          }
-          window.location.reload();
-        };
-        if (registration.waiting) {
-          refreshPage(registration.waiting);
-        }
-        registration.addEventListener("updatefound", () => {
-          let newWorker = registration.installing;
-          newWorker.addEventListener("statechange", () => {
-            if (newWorker.state === "installed") {
-              refreshPage(newWorker);
-            }
-          });
-        });
-      });
-    }
-  };
-
-  // javascripts/rasterizer.js
-  pwa_default("rasterizer");
   var removeDropZone = () => {
     let dropZone = document.querySelector("#drop-zone");
     if (dropZone) {
@@ -2817,4 +2826,4 @@ Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/js
 JSZip uses the library pako released under the MIT license :
 https://github.com/nodeca/pako/blob/master/LICENSE
 */
-//# sourceMappingURL=rasterizer-BDY3LGYT.js.map
+//# sourceMappingURL=rasterizer-GOOPDK6T.js.map
