@@ -1,7 +1,4 @@
 import JSZip from 'jszip';
-import pwa from 'esbuild-plugin-ghpages-pwa/src/pwa.js';
-
-pwa('rasterizer');
 
 const removeDropZone = () => {
   let dropZone = document.querySelector('#drop-zone')
