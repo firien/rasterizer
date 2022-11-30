@@ -13,7 +13,6 @@
     "jszip": "^3.7.1"
   },
   "scripts": {
-    "dev": "node ./build.js",
-    "build": "NODE_ENV=production node ./build.js"
+    "build": "node ./build.js"
   }
 }

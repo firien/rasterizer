@@ -3,8 +3,9 @@ import ghPages from 'esbuild-plugin-ghpages-pwa';
 
 let { plugin: githubPages, buildOptions } = ghPages({
   app: 'rasterizer',
+  name: 'rasterizer',
   description: 'Convert SVG to PNG',
-  cacheTag: 5,
+  cacheTag: 6,
   serve: 3014
 })
 
