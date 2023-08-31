@@ -10,11 +10,8 @@ const removeDropZone = () => {
 const processFile = async function(e, name, sizes) {
   name = name.replace(/\.[^\/.]+$/, '');
   let text = e.target.result;
-  let dom = document.implementation.createHTMLDocument('svg');
-  dom.open();
-  dom.write(text);
-  dom.close();
-  let svg = dom.body.firstElementChild;
+  let dom = new DOMParser().parseFromString(text, 'image/svg+xml')
+  let svg = dom.querySelector('svg')
   let zip = new MinZip();
   for (let size of sizes) {
     let blob = await generateBlob(size.size * size.scale, svg);
