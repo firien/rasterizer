@@ -1,4 +1,4 @@
-import JSZip from 'jszip';
+import MinZip from 'minzip';
 
 const removeDropZone = () => {
   let dropZone = document.querySelector('#drop-zone')
@@ -15,17 +15,17 @@ const processFile = async function(e, name, sizes) {
   dom.write(text);
   dom.close();
   let svg = dom.body.firstElementChild;
-  let zip = new JSZip();
+  let zip = new MinZip();
   for (let size of sizes) {
     let blob = await generateBlob(size.size * size.scale, svg);
     let filename = `${name}-${size.size}`;
     if (size.scale > 1) {
       filename += `@${size.scale}x`;
     }
-    zip.file(`${filename}.png`, blob);
+    await zip.addFile(`${filename}.png`, blob);
   }
-  let blob = await zip.generateAsync({type: 'blob'});
-  let url = URL.createObjectURL(blob);
+  const zipBlob = await zip.write();
+  let url = URL.createObjectURL(zipBlob);
   let anchor = document.createElement('a');
   anchor.setAttribute('download', `${name}.zip`);
   anchor.href = url;

@@ -10,7 +10,7 @@
   "devDependencies": {
     "esbuild": "^0.14.5",
     "esbuild-plugin-ghpages-pwa": "github:firien/esbuild-plugin-ghpages-pwa",
-    "jszip": "^3.7.1"
+    "minzip": "github:firien/minzip"
   },
   "scripts": {
     "build": "node ./build.js"
