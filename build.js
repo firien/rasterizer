@@ -5,7 +5,7 @@ let { plugin: githubPages, buildOptions } = ghPages({
   app: 'rasterizer',
   name: 'rasterizer',
   description: 'Convert SVG to PNG',
-  cacheTag: 6,
+  cacheTag: 7,
   serve: 3014
 })
 
